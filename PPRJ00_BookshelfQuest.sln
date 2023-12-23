@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34316.72
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPRJ00_BookshelfQuest", "PPRJ00_BookshelfQuest\PPRJ00_BookshelfQuest\PPRJ00_BookshelfQuest.csproj", "{E1C8A062-21B1-46EC-99E1-03893A1681B6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPRJ00_BookshelfQuest.Shared", "PPRJ00_BookshelfQuest.Shared\PPRJ00_BookshelfQuest.Shared.csproj", "{598DFB15-C5CA-49EC-8968-F3ED7B83D7B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E1C8A062-21B1-46EC-99E1-03893A1681B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1C8A062-21B1-46EC-99E1-03893A1681B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1C8A062-21B1-46EC-99E1-03893A1681B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1C8A062-21B1-46EC-99E1-03893A1681B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{598DFB15-C5CA-49EC-8968-F3ED7B83D7B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{598DFB15-C5CA-49EC-8968-F3ED7B83D7B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{598DFB15-C5CA-49EC-8968-F3ED7B83D7B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{598DFB15-C5CA-49EC-8968-F3ED7B83D7B7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A7057811-6FEE-4B10-99CD-C4BFE6300B34}
+	EndGlobalSection
+EndGlobal

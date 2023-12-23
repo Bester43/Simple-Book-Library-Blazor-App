@@ -1,0 +1,62 @@
+﻿@page "/"
+@inject NavigationManager NavigationManager
+@inject IBookService BookService
+@rendermode InteractiveServer
+
+<h3 class="text-center mb-4">Home - BookshelfQuest</h3>
+
+<div class="progress-container mb-4">
+    <div class="progress">
+        <div class="progress-bar bg-success" role="progressbar" style="width: @BookReadProgress%;" aria-valuenow="@BookReadProgress" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar bg-light" role="progressbar" style="width: @(100 - BookReadProgress)%;" aria-valuenow="@(100 - BookReadProgress)" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <span class="progress-text">@BookReadProgress% Books read from your library</span>
+</div>
+
+<div class="d-flex flex-column align-items-center justify-content-center buttons-container">
+    <button class="btn btn-primary btn-lg mb-3" @onclick="ViewAllBooks">
+        <div class="d-flex flex-column align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-book mb-2" viewBox="0 0 16 16">
+                <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
+            </svg>
+            <span class="font-size-1-2em">View all added books</span>
+        </div>
+    </button>
+    <button class="btn btn-dark btn-lg" @onclick="AddNewBook">
+        <div class="d-flex flex-column align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-bookmark-plus mb-2" viewBox="0 0 16 16">
+                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
+                <path d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4" />
+            </svg>
+            <span class="font-size-1-2em">Add new book</span>
+        </div>
+    </button>
+</div>
+
+@code {
+    private int BookReadProgress { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdateBookReadProgress();
+    }
+
+    private async Task UpdateBookReadProgress()
+    {
+        var allBooks = await BookService.GetAllBooksAsync();
+        int totalBooks = allBooks.Count();
+        int booksReadCount = await BookService.GetBooksReadCountAsync();
+        BookReadProgress = totalBooks == 0 ? 0 : (int)((double)booksReadCount / totalBooks * 100);
+    }
+
+
+    private void ViewAllBooks()
+    {
+        NavigationManager.NavigateTo("/library");
+    }
+
+    private void AddNewBook()
+    {
+        NavigationManager.NavigateTo("/addbook");
+    }
+}

@@ -1,0 +1,58 @@
+﻿<div class="pagination-container d-flex justify-content-center align-items-center">
+    <button @onclick="MoveToFirstPage" class="btn btn-link" disabled="@IsFirstPage">First</button>
+    <button @onclick="MoveToPreviousPage" class="btn btn-link" disabled="@IsFirstPage">Previous</button>
+
+    <span>Page @PageIndex of @TotalPages</span>
+
+    <button @onclick="MoveToNextPage" class="btn btn-link" disabled="@IsLastPage">Next</button>
+    <button @onclick="MoveToLastPage" class="btn btn-link" disabled="@IsLastPage">Last</button>
+</div>
+
+
+@code {
+    [Parameter]
+    public int PageIndex { get; set; }
+
+    [Parameter]
+    public int PageSize { get; set; }
+
+    [Parameter]
+    public int TotalItems { get; set; }
+
+    [Parameter]
+    public EventCallback<int> PageIndexChanged { get; set; }
+
+    private int TotalPages => (int)Math.Ceiling(TotalItems / (double)PageSize);
+
+    private bool IsFirstPage => PageIndex == 1;
+
+    private bool IsLastPage => PageIndex == TotalPages;
+
+    private void NavigateToPage(int pageIndex)
+    {
+        if (pageIndex >= 1 && pageIndex <= TotalPages)
+        {
+            PageIndexChanged.InvokeAsync(pageIndex);
+        }
+    }
+
+    private void MoveToFirstPage()
+    {
+        NavigateToPage(1);
+    }
+
+    private void MoveToPreviousPage()
+    {
+        NavigateToPage(PageIndex - 1);
+    }
+
+    private void MoveToNextPage()
+    {
+        NavigateToPage(PageIndex + 1);
+    }
+
+    private void MoveToLastPage()
+    {
+        NavigateToPage(TotalPages);
+    }
+}

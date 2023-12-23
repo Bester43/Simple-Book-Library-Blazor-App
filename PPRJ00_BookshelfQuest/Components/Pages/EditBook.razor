@@ -1,0 +1,86 @@
+﻿@page "/editbook/{id:int}"
+@inject IBookService BookService
+@inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
+@rendermode InteractiveServer
+@using System.Globalization
+
+<h3>Edit Book</h3>
+
+<EditForm Model="@EditedBook" OnValidSubmit="UpdateBook">
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <InputText class="form-control" id="title" @bind-Value="EditedBook.Title" required />
+        <ValidationMessage For="@(() => EditedBook.Title)" />
+    </div>
+
+    <div class="form-group">
+        <label for="author">Author:</label>
+        <InputText class="form-control" id="author" @bind-Value="EditedBook.Author" />
+        <ValidationMessage For="@(() => EditedBook.Author)" />
+    </div>
+
+    <div class="form-group">
+        <label for="genre">Genre:</label>
+        <InputText class="form-control" id="genre" @bind-Value="GenresAsString" />
+    </div>
+
+    <div class="form-group">
+        <label for="publicationYear">Publication Year:</label>
+        <InputDate class="form-control" id="publicationYear" @bind-Value="EditedBook.PublicationYear" />
+        <ValidationMessage For="@(() => EditedBook.PublicationYear)" />
+    </div>
+
+    <div class="form-group">
+        <label for="bookStatus">Book Status:</label>
+        <InputSelect class="form-control" id="bookStatus" @bind-Value="EditedBook.Status">
+            <option value="Want To Read">Want to Read</option>
+            <option value="Currently Reading">Currently Reading</option>
+            <option value="Read">Read</option>
+        </InputSelect>
+    </div>
+
+    @if (EditedBook.Status == "Read")
+    {
+        <div class="form-group d-flex align-items-center">
+            <label for="readDate">Read Date:</label>
+            <InputDate class="form-control" id="readDate" @bind-Value="EditedBook.ReadDate" />
+            <div class="ml-auto">
+                <a @onclick="() => getday(0)" class="btn">Today</a>
+                <a @onclick="() => getday(-1)" class="btn">Yesterday</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        EditedBook.ReadDate = null;
+    }
+
+    <button type="submit" class="btn btn-primary">Update Book</button>
+</EditForm>
+
+@code {
+    private Book EditedBook = new Book();
+    private string GenresAsString { get; set; } = string.Empty;
+
+    [Parameter]
+    public int id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        EditedBook = await BookService.GetBookByIdAsync(id);
+        GenresAsString = EditedBook.Genres != null ? string.Join(", ", EditedBook.Genres) : string.Empty;
+    }
+
+    private async Task UpdateBook()
+    {
+        EditedBook.Genres = GenresAsString.Split(',').Select(genre => genre.Trim()).ToList();
+        await BookService.UpdateBookAsync(EditedBook);
+        NavigationManager.NavigateTo("/library");
+    }
+
+    private void getday(int daysadd)
+    {
+        EditedBook.ReadDate = DateOnly.FromDateTime(DateTime.Now.Date).AddDays(daysadd);
+    }
+}

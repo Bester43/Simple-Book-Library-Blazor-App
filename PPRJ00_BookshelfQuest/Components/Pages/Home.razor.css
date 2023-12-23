@@ -1,0 +1,42 @@
+﻿.text-center {
+    text-align: center;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+.progress-container {
+    margin-bottom: 1rem;
+}
+
+.progress-text {
+    font-size: 1em;
+    color: black;
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+button {
+    width: 100%;
+    height: auto;
+}
+
+@media only screen and (min-width: 768px) {
+    .buttons-container {
+        flex-direction: row;
+    }
+
+    button {
+        width: 48%;
+    }
+
+    .font-size-1-2em {
+        font-size: 1.2em;
+    }
+}
